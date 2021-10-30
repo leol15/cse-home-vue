@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="hello-world">
     <Header />
     <!-- About me -->
     <Intro />
@@ -11,26 +11,17 @@
     <Fails />
     <Skills />
     <!-- fun stuff -->
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <button @click="updateTheme">Update</button>
   </div>
 </template>
 
 <script>
 import Header from "./Header.vue";
-import { SECTION } from './common';
+import { SECTION, Theme, THEME_KEY } from "./common";
+import { defineComponent } from "vue";
 
 import Community from "./Sections/Community.vue";
 import Study from "./Sections/Study.vue";
@@ -39,23 +30,37 @@ import SWProjects from "./Sections/SWProjects.vue";
 import HWProjects from "./Sections/HWProjects.vue";
 import Fails from "./Sections/Fails.vue";
 import Skills from "./Sections/Skills.vue";
-import Intro from './Sections/Intro.vue';
+import Intro from "./Sections/Intro.vue";
 
-export default {
-  name: 'HelloWorld',
-  components: {Header,
-    Community, Study, Work,
-    SWProjects, HWProjects, Fails, Skills,
-    Intro},
-  setup() {
-    return {SECTION}
+export default defineComponent({
+  components: {
+    Header,
+    Community,
+    Study,
+    Work,
+    SWProjects,
+    HWProjects,
+    Fails,
+    Skills,
+    Intro,
   },
-}
+  inject: [THEME_KEY],
+  setup() {
+    function updateTheme() {
+      if (this.THEME_KEY.value === Theme.DARK) {
+        this.THEME_KEY.value = Theme.LIGHT;
+      } else {
+        this.THEME_KEY.value = Theme.DARK;
+      }
+    }
+    return { SECTION, updateTheme };
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.body {
+.hello-world {
   /* background-color: black; */
   margin: 0;
   padding: 0;

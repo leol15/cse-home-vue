@@ -12,3 +12,10 @@ export const SECTION = {
 }
 
 
+export const Theme = {
+    LIGHT: "light",
+    DARK: "dark",
+}
+
+export const THEME_KEY = "THEME_KEY";
+
