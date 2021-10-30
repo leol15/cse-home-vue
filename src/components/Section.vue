@@ -18,7 +18,6 @@ export default {
 
 <style lang="scss" scoped>
 .heading {
-}
-.content {
+  font-size: $font-size-l;
 }
 </style>

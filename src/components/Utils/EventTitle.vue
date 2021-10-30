@@ -3,10 +3,10 @@
     <img v-if="image" :src="image" alt="profile-image" />
     <span>
       <div class="top">
-        <slot name="top" />
+        {{ title }}
       </div>
       <span class="bottom">
-        <slot name="bottom" />
+        <span v-for="d in details" :key="d">{{ d }}</span>
       </span>
     </span>
   </div>
@@ -18,6 +18,14 @@ export default {
     image: {
       type: String,
       default: "",
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    details: {
+      type: Array,
+      default: () => [],
     },
   },
   setup() {},
@@ -47,9 +55,9 @@ export default {
   color: #000;
 }
 
-/deep/ .bottom {
+.bottom {
   font-size: $font-size-m;
-  > * {
+  span {
     color: #000;
     border-top: 1px solid #000;
     margin-right: 0.5rem;
