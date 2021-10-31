@@ -33,7 +33,7 @@ body {
   font-size: $font-size-s;
 }
 * {
-  outline: 1px dashed red;
+  // outline: 1px dashed red;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

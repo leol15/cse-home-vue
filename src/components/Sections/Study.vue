@@ -1,14 +1,16 @@
 <template>
   <Section>
     <template v-slot:heading><span>Study</span></template>
-    <div>
-      <event-title>
-        <template v-slot:top>B.S. Computer Science</template>
-        <template v-slot:bottom>
-          <span>University of Washington - Seattle</span>
-        </template>
-      </event-title>
-    </div>
+    <EventTitle
+      title="B.S. Computer Science"
+      :details="['University of Washington - Seattle']"
+    />
+    <span>
+      Interesting coursework: Data Structures & Algorithms, Software Design &
+      Implementation, Data Management, Introduction to AI, Systems Programming,
+      Operating System, Computer Graphics, Computer Vision, Cryptography,
+      Computer Networks, Data Center Systems
+    </span>
   </Section>
 </template>
 

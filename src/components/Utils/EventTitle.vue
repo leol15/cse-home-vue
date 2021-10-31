@@ -43,13 +43,15 @@ export default {
   img {
     margin-right: $space-2;
     border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    box-shadow: 0 0 50px #ccc;
     &:hover {
-      box-shadow: 1px 1px 1px black;
+      // box-shadow: 1px 1px 1px black;
     }
   }
 }
+
 .top {
   font-size: $font-size-l;
   color: #000;
