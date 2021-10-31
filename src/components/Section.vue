@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="section-container">
     <div class="heading">
       <slot name="heading" />
     </div>
-    <div class="content">
+    <div class="section-content">
       <slot />
     </div>
   </div>
@@ -24,7 +24,7 @@ export default {
   padding-bottom: $space-2;
 }
 
-.container {
+.section-container {
   transition: all 0.1s ease;
   margin: 3rem $space-6;
   padding: $space-3 $space-4;
@@ -32,18 +32,18 @@ export default {
   box-shadow: 0 10px 6px -6px #777, 0 0 30px #eee;
 
   &:hover {
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
     box-shadow: 0 10px 6px -6px #777, 0 0 30px #ccc;
   }
-  &:hover .content {
-    box-shadow: 0 8px 10px -8px #777 inset, 0 0 10px #ccc inset;
-  }
 
-  .content {
-    transition: all 0.1s ease;
-    padding: $space-4 $space-2 $space-2 $space-2;
+  .section-content {
+    transition: inherit;
+    padding: $space-4 0 $space-2 0;
     border-radius: inherit;
-    box-shadow: 0 8px 10px -8px #777 inset, 0 0 10px #eee inset;
+    box-shadow: 0 6px 8px -6px #777 inset, 0 0 10px #eee inset;
+  }
+  &:hover .section-content {
+    box-shadow: 0 6px 8px -6px #777 inset, 0 0 10px #ccc inset;
   }
 }
 </style>

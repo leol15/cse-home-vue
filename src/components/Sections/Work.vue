@@ -17,6 +17,13 @@
         </ul>
       </Event>
     </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2021, 6, 20)"
+      :end="maxTime"
+    />
 
     <div class="work-container">
       <img :src="require('@/assets/cse.jpg')" alt="cse-logo" />
@@ -36,6 +43,13 @@
         </ul>
       </Event>
     </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2021, 1, 16)"
+      :end="dateToSeconds(2021, 6, 10)"
+    />
 
     <div class="work-container">
       <img :src="require('@/assets/omad.jpg')" alt="omad-logo" />
@@ -54,6 +68,13 @@
         </ul>
       </Event>
     </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2019, 10, 1)"
+      :end="dateToSeconds(2021, 6, 10)"
+    />
 
     <div class="work-container">
       <img :src="require('@/assets/lp.jpg')" alt="lp-logo" />
@@ -73,6 +94,13 @@
         </ul>
       </Event>
     </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2019, 1, 1)"
+      :end="dateToSeconds(2021, 2, 22)"
+    />
 
     <div class="work-container">
       <img :src="require('@/assets/clinchnw.png')" alt="clinchnw-logo" />
@@ -92,16 +120,51 @@
         </ul>
       </Event>
     </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2019, 1, 1)"
+      :end="dateToSeconds(2019, 9, 20)"
+    />
+
+    <div class="work-container">
+      <img :src="require('@/assets/williams.jpg')" alt="williams-logo" />
+      <Event
+        title="Sales Associate"
+        :details="['Williams Sonoma', 'UVillage, Seattle, WA']"
+      >
+        <ul>
+          <li>Offered costomers the joy of kitchenware shopping</li>
+        </ul>
+      </Event>
+    </div>
+    <TimeLine
+      class="work-timeline"
+      :min="minTime"
+      :max="maxTime"
+      :start="dateToSeconds(2018, 12, 1)"
+      :end="dateToSeconds(2019, 1, 16)"
+    />
   </Section>
 </template>
 
 <script>
 import Section from "../Section.vue";
 import Event from "../Utils/Event.vue";
+import TimeLine from "../Utils/TimeLine.vue";
+import { dateToSeconds } from "../composable";
+
 export default {
-  components: { Section, Event },
+  components: { Section, Event, TimeLine },
   setup() {
-    return {};
+    const minTime = dateToSeconds(2018, 9, 26);
+    const maxTime = new Date().getTime();
+    return {
+      minTime,
+      maxTime,
+      dateToSeconds,
+    };
   },
 };
 </script>
@@ -110,16 +173,8 @@ export default {
 .work-container {
   display: flex;
   flex-direction: row;
-  margin-bottom: $space-2;
   position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    border-bottom: 4px solid #ddd;
-  }
+  padding: 0 $space-2 0 $space-2;
   img {
     margin: $space-1 $space-2 0 0;
     border-radius: 50%;
@@ -135,5 +190,11 @@ export default {
     padding-left: $space-2;
     list-style-type: square;
   }
+}
+
+.work-timeline {
+  height: $space-2;
+  margin: 0 $space-2 $space-4 $space-2;
+  transform: skewX(-60deg);
 }
 </style>

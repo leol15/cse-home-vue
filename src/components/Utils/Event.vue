@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="event-container">
     <span class="title">
       <div class="top">
         {{ title }}
@@ -37,7 +37,8 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&amp;display=swap");
 
-.container {
+.event-container {
+  width: 100%;
   .title {
     font-family: "Architects Daughter", "Comic Sans MS", cursive, sans-serif;
   }
