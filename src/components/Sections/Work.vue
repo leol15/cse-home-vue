@@ -223,7 +223,7 @@ ul {
   justify-content: space-between;
   flex-direction: row;
   .work-right {
-    padding: $space-2 0;
+    padding: $space-4 0;
     width: $space-6;
     transform: skewY(-60deg);
     margin-right: $space-2;

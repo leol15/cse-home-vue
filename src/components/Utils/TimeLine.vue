@@ -1,16 +1,25 @@
 <template>
-  <div class="time-line-container">
+  <div
+    class="time-line-container"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @mousemove="handleMouseMove"
+    @mouseover="handleMouseMove"
+  >
     <div
       v-for="style in styles"
       :key="style[0]"
       class="slider"
       :style="style"
     ></div>
+    <span class="time-tip" v-if="showTimeTip" :style="timeTipStyles">{{
+      timeTipText
+    }}</span>
   </div>
 </template>
 
 <script>
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { intervalToRow } from "../composable";
 
 export default defineComponent({
@@ -66,7 +75,51 @@ export default defineComponent({
         };
       });
     });
-    return { styles };
+
+    const showTimeTip = ref(false);
+    const timeTipText = ref("");
+    const offsets = ref({ top: 0, left: 0 });
+
+    const timeTipStyles = computed(() => ({
+      top: offsets.value.top + "px",
+      left: offsets.value.left + "px",
+      width: props.horizontal ? "10px" : "100%",
+      height: props.horizontal ? "100%" : "10px",
+    }));
+    function handleMouseEnter(e) {
+      showTimeTip.value = true;
+      handleMouseMove(e);
+    }
+
+    function handleMouseLeave(e) {
+      showTimeTip.value = false;
+      handleMouseMove(e);
+    }
+
+    function handleMouseMove(e) {
+      // if (!e.target.classList.contains("time-line-container")) {
+      //   return;
+      // }
+      // e.stopPropagation();
+      const pBound = e.target.getBoundingClientRect();
+      offsets.value.top = props.horizontal ? 0 : e.offsetY + pBound.top;
+      offsets.value.left = props.horizontal ? e.offsetX + pBound.left: 0;
+
+      // offsets.value.top = props.horizontal ? 0 : e.offsetY + e.target.offsetTop;
+      // offsets.value.left = props.horizontal ? e.offsetX + e.target.offsetLeft: 0;
+      // console.log(e.offsetY, e.target.offsetTop, offsets.value.top)
+      // timeTipText = TODO
+    }
+
+    return {
+      styles,
+      handleMouseEnter,
+      handleMouseMove,
+      handleMouseLeave,
+      timeTipStyles,
+      showTimeTip,
+      timeTipText,
+    };
   },
 });
 </script>
@@ -74,13 +127,32 @@ export default defineComponent({
 <style lang="scss" scoped>
 .time-line-container {
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   height: 100%;
   width: 100%;
-  // background-color: $uw-purple;
+
+  &:hover > .slider {
+    filter: saturate(0.85);
+  }
   .slider {
+    // pointer-events: none;
     position: absolute;
-    background-color: $uw-gold-light;
+    z-index: 1;
+
+    &:hover {
+      filter: saturate(2);
+      transform: scale(1.03);
+      z-index: 10;
+    }
+  }
+
+  .time-tip {
+    display: block;
+    position: sticky;
+    pointer-events: none;
+    transition: all 0.1s;
+    z-index: 999;
+    background-color: rgba(255, 0, 0, 0.5);
   }
 }
 </style>
