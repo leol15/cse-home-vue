@@ -4,7 +4,8 @@
       <span>Community</span>
     </template>
 
-    <div>
+    <EventWrapper>
+      <img :src="require('@/assets/codespree.jpg')" alt="codespree-logo" />
       <Event
         title="Co-founder & VP"
         :details="['CodeSpree', 'UW Registed Student Org.']"
@@ -18,13 +19,13 @@
           </li>
         </ul>
       </Event>
-    </div>
+    </EventWrapper>
 
-    <div>
+    <EventWrapper>
+      <img :src="require('@/assets/ewb.jpg')" alt="ewb-logo" />
       <Event
         title="Member"
         :details="['Engineering Without Borders, Local Team', 'UW']"
-        :image="require('@/assets/ewb.jpg')"
       >
         <ul>
           <li>
@@ -37,13 +38,13 @@
           </li>
         </ul>
       </Event>
-    </div>
+    </EventWrapper>
 
-    <div>
+    <EventWrapper>
+      <img :src="require('@/assets/huskyrobotics.png')" alt="huskyrobotics-logo" />
       <Event
         title="Member"
         :details="['Husky Robotics, Manufacturing Team', 'UW']"
-        :image="require('@/assets/huskyrobotics.png')"
       >
         <ul>
           <li>
@@ -57,20 +58,37 @@
           </li>
         </ul>
       </Event>
-    </div>
+    </EventWrapper>
   </Section>
 </template>
 
 <script>
 import Section from "../Section.vue";
 import Event from "../Utils/Event.vue";
+import EventWrapper from "../Utils/EventWrapper.vue";
 
 export default {
-  components: { Section, Event },
+  components: { Section, Event, EventWrapper },
   setup() {
     return {};
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+img {
+  margin: $space-1 $space-2 0 0;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 2px double #cccccc;
+  &:hover {
+    // box-shadow: 1px 1px 1px black;
+  }
+}
+
+ul {
+  padding-left: $space-2;
+  list-style-type: square;
+}
+</style>

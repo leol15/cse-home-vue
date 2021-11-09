@@ -1,11 +1,17 @@
 <template>
   <div class="time-line-container">
-    <div class="slider" :style="styles"></div>
+    <div
+      v-for="style in styles"
+      :key="style[0]"
+      class="slider"
+      :style="style"
+    ></div>
   </div>
 </template>
 
 <script>
 import { computed, defineComponent } from "vue";
+import { intervalToRow, strToColor } from "../composable";
 
 export default defineComponent({
   props: {
@@ -17,20 +23,52 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    start: {
-      type: Number,
+    /**
+     * [
+     *  [begin, end, {...options}]
+     * ]
+     */
+    intervals: {
+      type: Array,
       required: true,
     },
-    end: {
-      type: Number,
-      required: true,
+    horizontal: {
+      type: Boolean,
+      default: true,
     },
   },
   setup(props) {
-    const styles = computed(() => ({
-      left: ((props.start - props.min) / (props.max - props.min)) * 100 + "%",
-      width: ((props.end - props.start) / (props.max - props.min)) * 100 + "%",
-    }));
+    const styles = computed(() => {
+      const range = props.max - props.min;
+      const rowedIntervals = intervalToRow(props.intervals);
+      // [idx, [a, b, option]]
+      const numRows = rowedIntervals.reduce((prev, curr) => [
+        Math.max(prev[0], curr[0]),
+      ])[0];
+      const thickness = 1 / (numRows + 1);
+      return rowedIntervals.map((e) => {
+        const row = e[0];
+        const interval = e[1];
+        const col = strToColor(interval[2].name);
+        const colorStr = "rgb(" + col.join(",") + ")";
+        return {
+          // start
+          [props.horizontal ? "left" : "bottom"]:
+            ((interval[0] - props.min) / range) * 100 + "%",
+          // length
+          [props.horizontal ? "width" : "height"]:
+            ((interval[1] - interval[0]) / range) * 100 + "%",
+          // thickness
+          [props.horizontal ? "height" : "width"]: thickness * 100 + "%",
+          // offset/row
+          [props.horizontal ? "top" : "left"]: row * thickness * 100 + "%",
+          // color
+          backgroundColor: colorStr,
+        };
+      });
+    });
+    console.log(styles);
+
     return { styles };
   },
 });
@@ -40,13 +78,11 @@ export default defineComponent({
 .time-line-container {
   position: relative;
   overflow: hidden;
-  // height: $space-3;
-  // margin: 0 $space-3;
-  // transform: skewX(-60deg);
-  background-color: $uw-purple;
+  height: 100%;
+  width: 100%;
+  // background-color: $uw-purple;
   .slider {
     position: absolute;
-    height: 100%;
     background-color: $uw-gold-light;
   }
 }

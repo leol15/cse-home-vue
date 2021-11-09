@@ -50,15 +50,16 @@ export default {
   top: 0;
   ul {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-end;
     list-style: none;
   }
   li {
-    border-bottom: 5px solid red;
+    border-bottom: 5px solid $uw-purple;
     border-bottom-style: outset;
     &:hover {
-      background-color: red;
+      background-color: $uw-gold-light;
       cursor: pointer;
     }
     a {

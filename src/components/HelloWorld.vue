@@ -62,8 +62,10 @@ export default defineComponent({
 <style scoped>
 .hello-world {
   /* background-color: black; */
-  margin: 0;
+  margin: auto;
   padding: 0;
   position: relative;
+  max-width: 900px;
+
 }
 </style>

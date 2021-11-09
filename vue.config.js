@@ -8,7 +8,7 @@ module.exports = {
 	devServer: {
 		disableHostCheck: true,
 		https: false,
-        public: "http://attu5.cs.washington.edu:4657/~leol15/x/home/",  //// This line makes the client browser talk DIRECTLY to this address / server for hot reloading.
+        public: "http://attu7.cs.washington.edu:4657/~leol15/x/home/",  //// This line makes the client browser talk DIRECTLY to this address / server for hot reloading.
         host: "0.0.0.0" ,
         port: 4567,
 	},
