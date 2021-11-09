@@ -52,3 +52,6 @@ export function arrayToColorStr(arr) {
   return "rgb(" + arr.join(",") + ")";
 }
 
+export function strToColorStr(s) {
+  return arrayToColorStr(strToColor(s));
+}

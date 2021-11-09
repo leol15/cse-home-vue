@@ -2,7 +2,7 @@
   <div class="event-container">
     <span class="title">
       <div class="top">
-        {{ title }} <span :style="colorMarkerStyle" class="color-marker"></span>
+        {{ title }} <span v-if="showColorMarker" :style="colorMarkerStyle" class="color-marker" />
       </div>
       <span class="bottom">
         <span v-for="d in details" :key="d">{{ d }}</span>
@@ -16,7 +16,7 @@
 
 <script>
 import { computed } from "@vue/reactivity";
-import { strToColor } from "../composable";
+import { strToColorStr } from "../composable";
 
 export default {
   props: {
@@ -32,14 +32,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    showColorMarker: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props) {
-    const colorStr = computed(() => {
-      const col = strToColor(props.title);
-      return "rgb(" + col.join(",") + ")";
-    });
     const colorMarkerStyle = computed(() => ({
-      backgroundColor: colorStr,
+      backgroundColor: strToColorStr(props.title),
     }));
     return { colorMarkerStyle };
   },
@@ -60,8 +60,11 @@ export default {
     color: #000;
 
     .color-marker {
+      margin-left: $space-1;
       display: inline-block;
-      width: $space-2;
+      width: 2rem;
+      height: 1rem;
+      border-radius: 5px;
     }
   }
 

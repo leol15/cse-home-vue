@@ -11,7 +11,7 @@
 
 <script>
 import { computed, defineComponent } from "vue";
-import { intervalToRow, strToColor } from "../composable";
+import { intervalToRow } from "../composable";
 
 export default defineComponent({
   props: {
@@ -49,8 +49,7 @@ export default defineComponent({
       return rowedIntervals.map((e) => {
         const row = e[0];
         const interval = e[1];
-        const col = strToColor(interval[2].name);
-        const colorStr = "rgb(" + col.join(",") + ")";
+        const colorStr = interval[2].color;
         return {
           // start
           [props.horizontal ? "left" : "bottom"]:
@@ -67,8 +66,6 @@ export default defineComponent({
         };
       });
     });
-    console.log(styles);
-
     return { styles };
   },
 });

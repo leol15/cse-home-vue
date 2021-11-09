@@ -7,7 +7,7 @@
           <img :src="require('@/assets/pathai.jpg')" alt="pathai-logo" />
           <Event
             title="Software Engineering Co-op"
-            :details="['PathAi', 'Remote']"
+            :details="['PathAI', 'Remote']"
           >
             <ul>
               <li>
@@ -129,49 +129,72 @@ import Section from "../Section.vue";
 import Event from "../Utils/Event.vue";
 import EventWrapper from "../Utils/EventWrapper.vue";
 import TimeLine from "../Utils/TimeLine.vue";
-import { dateToSeconds } from "../composable";
+import { dateToSeconds, strToColorStr } from "../composable";
+
+const minTime = dateToSeconds(2018, 9, 26);
+const maxTime = new Date().getTime();
+
+const WORKS = {
+  PATHAI: [
+    dateToSeconds(2021, 6, 20),
+    maxTime,
+    {
+      name: "Software Engineering Co-op",
+      color: strToColorStr("Software Engineering Co-op"),
+    },
+  ],
+  CSE333: [
+    dateToSeconds(2021, 1, 16),
+    dateToSeconds(2021, 6, 10),
+    {
+      name: "Systems Programming TA",
+      color: strToColorStr("Systems Programming TA"),
+    },
+  ],
+  TUTOR: [
+    dateToSeconds(2019, 10, 1),
+    dateToSeconds(2021, 6, 10),
+    {
+      name: "CSE & Math Tutor",
+      color: strToColorStr("CSE & Math Tutor"),
+    },
+  ],
+  LOCALPOINT: [
+    dateToSeconds(2019, 1, 1),
+    dateToSeconds(2020, 2, 22),
+    {
+      name: "Student Dining Coordinator",
+      color: strToColorStr("Student Dining Coordinator"),
+    },
+  ],
+  CLINCHNW: [
+    dateToSeconds(2019, 1, 1),
+    dateToSeconds(2019, 9, 20),
+    {
+      name: "Office Intern",
+      color: strToColorStr("Office Intern"),
+    },
+  ],
+  WILLIAMS: [
+    dateToSeconds(2018, 12, 1),
+    dateToSeconds(2019, 1, 16),
+    {
+      name: "Sales Associate",
+      color: strToColorStr("Sales Associate"),
+    },
+  ],
+};
 
 export default {
   components: { Section, Event, TimeLine, EventWrapper },
 
   setup() {
-    const minTime = dateToSeconds(2018, 9, 26);
-    const maxTime = new Date().getTime();
-    const workInterval = [];
-    workInterval.push([
-      dateToSeconds(2021, 6, 20),
-      maxTime,
-      { name: "Software Engineering Co-op" },
-    ]);
-    workInterval.push([
-      dateToSeconds(2021, 1, 16),
-      dateToSeconds(2021, 6, 10),
-      { name: "Systems Programming TA" },
-    ]);
-    workInterval.push([
-      dateToSeconds(2019, 10, 1),
-      dateToSeconds(2021, 6, 10),
-      { name: "CSE & Math Tutor" },
-    ]);
-    workInterval.push([
-      dateToSeconds(2019, 1, 1),
-      dateToSeconds(2020, 2, 22),
-      { name: "Student Dining Coordinator" },
-    ]);
-    workInterval.push([
-      dateToSeconds(2019, 1, 1),
-      dateToSeconds(2019, 9, 20),
-      { name: "Office Intern" },
-    ]);
-    workInterval.push([
-      dateToSeconds(2018, 12, 1),
-      dateToSeconds(2019, 1, 16),
-      { name: "Sales Associate" },
-    ]);
+    const workInterval = Object.values(WORKS);
     return {
       minTime,
       maxTime,
       workInterval,
+      WORKS,
       dateToSeconds,
     };
   },

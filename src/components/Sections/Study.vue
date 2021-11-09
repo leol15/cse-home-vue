@@ -4,6 +4,7 @@
     <Event
       title="B.S. Computer Science"
       :details="['University of Washington - Seattle']"
+      :showColorMarker="false"
     >
       <span>
         Interesting coursework: Data Structures & Algorithms, Software Design &
