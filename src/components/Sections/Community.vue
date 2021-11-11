@@ -1,9 +1,6 @@
 <template>
   <Section>
-    <template #heading>
-      <span>Community</span>
-    </template>
-
+    <template #heading><span>Community</span></template>
     <EventWrapper>
       <img :src="require('@/assets/codespree.jpg')" alt="codespree-logo" />
       <Event
@@ -41,7 +38,10 @@
     </EventWrapper>
 
     <EventWrapper>
-      <img :src="require('@/assets/huskyrobotics.png')" alt="huskyrobotics-logo" />
+      <img
+        :src="require('@/assets/huskyrobotics.png')"
+        alt="huskyrobotics-logo"
+      />
       <Event
         title="Member"
         :details="['Husky Robotics, Manufacturing Team', 'UW']"

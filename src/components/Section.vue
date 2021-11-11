@@ -37,6 +37,7 @@ export default {
   }
 
   .section-content {
+    padding: $space-2 0;
     transition: inherit;
     border-radius: inherit;
     box-shadow: 0 6px 8px -6px #777 inset, 0 0 10px #eee inset;

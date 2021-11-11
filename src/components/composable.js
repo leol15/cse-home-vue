@@ -6,10 +6,11 @@ export function dateToSeconds(year, month, day) {
 }
 
 /**
- * given an array of intervals (tasks), return a 
- * list of runner (indexes) that can perform all
- * tasks without overlap, for convinence, copy and
- * return the input intervals too
+ * given an array of intervals [[beginTime, endTime, options], ...],
+ * return a list of runner (indexes) that can perform all
+ * tasks without overlap
+ * for convinence, copy and return the input intervals too:
+ *  [index, interval]
  */
 export function intervalToRow(intervals) {
   const runners = [];  // store the end time

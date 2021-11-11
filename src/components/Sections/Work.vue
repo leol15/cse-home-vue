@@ -118,6 +118,8 @@
           :max="maxTime"
           :intervals="workInterval"
           :horizontal="false"
+          @mouseenterInterval="mouseenterInterval"
+          @mouseleaveInterval="mouseleaveInterval"
         />
       </div>
     </div>
@@ -190,12 +192,21 @@ export default {
 
   setup() {
     const workInterval = Object.values(WORKS);
+    function mouseenterInterval(interval) {
+      // TODO maybe highlight the work
+      console.log(interval[2].name);
+    }
+    function mouseleaveInterval(interval) {
+      console.log(interval[2].name);
+    }
     return {
       minTime,
       maxTime,
       workInterval,
       WORKS,
       dateToSeconds,
+      mouseenterInterval,
+      mouseleaveInterval,
     };
   },
 };

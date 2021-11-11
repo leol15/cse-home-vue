@@ -19,8 +19,8 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   position: relative;
-  padding: 0 $space-2 0 $space-2;
-  margin: $space-4 0 $space-4 0;
+  padding: $space-2;
+  padding-bottom: $space-1;
 }
 </style>
 

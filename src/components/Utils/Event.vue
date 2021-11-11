@@ -73,7 +73,7 @@ export default {
     color: #000;
     span {
       border-top: 1px solid #000;
-      margin-right: 0.5rem;
+      margin-right: $space-2;
     }
   }
 }

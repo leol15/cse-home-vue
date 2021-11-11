@@ -7,10 +7,12 @@
     @mouseover="handleMouseMove"
   >
     <div
-      v-for="style in styles"
-      :key="style[0]"
+      v-for="time in times"
+      :key="time.data"
       class="slider"
-      :style="style"
+      :style="time.style"
+      @mouseenter="emit('mouseenterInterval', time.data)"
+      @mouseleave="emit('mouseleaveInterval', time.data)"
     ></div>
     <span class="time-tip" v-if="showTimeTip" :style="timeTipStyles">{{
       timeTipText
@@ -46,8 +48,8 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(props) {
-    const styles = computed(() => {
+  setup(props, { emit }) {
+    const times = computed(() => {
       const range = props.max - props.min;
       const rowedIntervals = intervalToRow(props.intervals);
       // [idx, [a, b, option]]
@@ -57,21 +59,23 @@ export default defineComponent({
       const thickness = 1 / (numRows + 1);
       return rowedIntervals.map((e) => {
         const row = e[0];
-        const interval = e[1];
-        const colorStr = interval[2].color;
+        const data = e[1];
         return {
-          // start
-          [props.horizontal ? "left" : "bottom"]:
-            ((interval[0] - props.min) / range) * 100 + "%",
-          // length
-          [props.horizontal ? "width" : "height"]:
-            ((interval[1] - interval[0]) / range) * 100 + "%",
-          // thickness
-          [props.horizontal ? "height" : "width"]: thickness * 100 + "%",
-          // offset/row
-          [props.horizontal ? "top" : "left"]: row * thickness * 100 + "%",
-          // color
-          backgroundColor: colorStr,
+          data,
+          style: {
+            // start
+            [props.horizontal ? "left" : "bottom"]:
+              ((data[0] - props.min) / range) * 100 + "%",
+            // length
+            [props.horizontal ? "width" : "height"]:
+              ((data[1] - data[0]) / range) * 100 + "%",
+            // thickness
+            [props.horizontal ? "height" : "width"]: thickness * 100 + "%",
+            // offset/row
+            [props.horizontal ? "top" : "left"]: row * thickness * 100 + "%",
+            // color
+            backgroundColor: data[2].color,
+          },
         };
       });
     });
@@ -103,7 +107,7 @@ export default defineComponent({
       // e.stopPropagation();
       const pBound = e.target.getBoundingClientRect();
       offsets.value.top = props.horizontal ? 0 : e.offsetY + pBound.top;
-      offsets.value.left = props.horizontal ? e.offsetX + pBound.left: 0;
+      offsets.value.left = props.horizontal ? e.offsetX + pBound.left : 0;
 
       // offsets.value.top = props.horizontal ? 0 : e.offsetY + e.target.offsetTop;
       // offsets.value.left = props.horizontal ? e.offsetX + e.target.offsetLeft: 0;
@@ -112,7 +116,8 @@ export default defineComponent({
     }
 
     return {
-      styles,
+      emit,
+      times,
       handleMouseEnter,
       handleMouseMove,
       handleMouseLeave,
