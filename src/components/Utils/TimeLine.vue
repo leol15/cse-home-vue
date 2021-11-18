@@ -1,10 +1,10 @@
 <template>
   <div
     class="time-line-container"
+    :ref="refKey"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousemove="handleMouseMove"
-    @mouseover="handleMouseMove"
   >
     <div
       v-for="time in times"
@@ -14,9 +14,9 @@
       @mouseenter="emit('mouseenterInterval', time.data)"
       @mouseleave="emit('mouseleaveInterval', time.data)"
     ></div>
-    <span class="time-tip" v-if="showTimeTip" :style="timeTipStyles">{{
-      timeTipText
-    }}</span>
+    <span class="time-tip" v-if="showTimeTip" :style="timeTipStyles">
+      <span class="time-tip-text">{{ timeTipText }}</span>
+    </span>
   </div>
 </template>
 
@@ -47,8 +47,13 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    /** return a string as the hover tip text */
+    hoverTip: {
+      type: Function,
+      default: undefined,
+    }
   },
-  setup(props, { emit }) {
+  setup(props, { context, emit }) {
     const times = computed(() => {
       const range = props.max - props.min;
       const rowedIntervals = intervalToRow(props.intervals);
@@ -80,6 +85,7 @@ export default defineComponent({
       });
     });
 
+    const refKey = ref("timeline-el" + Math.random());
     const showTimeTip = ref(false);
     const timeTipText = ref("");
     const offsets = ref({ top: 0, left: 0 });
@@ -87,8 +93,8 @@ export default defineComponent({
     const timeTipStyles = computed(() => ({
       top: offsets.value.top + "px",
       left: offsets.value.left + "px",
-      width: props.horizontal ? "10px" : "100%",
-      height: props.horizontal ? "100%" : "10px",
+      width: props.horizontal ? "1px" : "100%",
+      height: props.horizontal ? "100%" : "1px",
     }));
     function handleMouseEnter(e) {
       showTimeTip.value = true;
@@ -100,23 +106,29 @@ export default defineComponent({
       handleMouseMove(e);
     }
 
+    let previouseMoveEvent;
     function handleMouseMove(e) {
-      // if (!e.target.classList.contains("time-line-container")) {
-      //   return;
-      // }
-      // e.stopPropagation();
+      previouseMoveEvent = e;
       const pBound = e.target.getBoundingClientRect();
       offsets.value.top = props.horizontal ? 0 : e.offsetY + pBound.top;
       offsets.value.left = props.horizontal ? e.offsetX + pBound.left : 0;
 
-      // offsets.value.top = props.horizontal ? 0 : e.offsetY + e.target.offsetTop;
-      // offsets.value.left = props.horizontal ? e.offsetX + e.target.offsetLeft: 0;
-      // console.log(e.offsetY, e.target.offsetTop, offsets.value.top)
-      // timeTipText = TODO
+      if (this?.$refs[refKey.value] && props.hoverTip) {
+        // compute percentage
+        const timelineBound = this?.$refs[refKey.value].getBoundingClientRect();
+        const range = props.horizontal ? timelineBound.width : timelineBound.height;
+        const distFromBegin = props.horizontal
+          ? e.clientX - timelineBound.left
+          : timelineBound.bottom - e.clientY;
+        timeTipText.value = props.hoverTip(distFromBegin / range);
+      }
     }
+
+    window.addEventListener('scroll', () => (previouseMoveEvent && handleMouseMove(previouseMoveEvent)));
 
     return {
       emit,
+      refKey,
       times,
       handleMouseEnter,
       handleMouseMove,
@@ -132,21 +144,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 .time-line-container {
   position: relative;
-  // overflow: hidden;
   height: 100%;
   width: 100%;
-
   &:hover > .slider {
     filter: saturate(0.85);
   }
   .slider {
-    // pointer-events: none;
+    transform: skewY(-30deg);
     position: absolute;
     z-index: 1;
 
     &:hover {
       filter: saturate(2);
-      transform: scale(1.03);
+      transform: skewY(-30deg) scale(1.03);
       z-index: 10;
     }
   }
@@ -155,9 +165,20 @@ export default defineComponent({
     display: block;
     position: sticky;
     pointer-events: none;
-    transition: all 0.1s;
     z-index: 999;
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: $uw-purple;
+  }
+
+  .time-tip-text {
+    position: absolute;
+    left: 100%;
+    white-space: nowrap;
+    background-color: rgba($uw-gold-light, 0.7);
+    color: $uw-purple;
+    border-radius: 4px;
+    padding: $space-1 / 2;
+    transform: translate($space-1, -50%);
+    font-family: monospace;
   }
 }
 </style>

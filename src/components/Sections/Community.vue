@@ -1,5 +1,5 @@
 <template>
-  <Section>
+  <Section id="Community">
     <template #heading><span>Community</span></template>
     <EventWrapper>
       <img :src="require('@/assets/codespree.jpg')" alt="codespree-logo" />

@@ -2,7 +2,7 @@
   <div class="event-container">
     <span class="title">
       <div class="top">
-        {{ title }} <span v-if="showColorMarker" :style="colorMarkerStyle" class="color-marker" />
+        {{ title }} <span v-if="tagColorStr" :style="{backgroundColor: tagColorStr}" class="color-marker" />
       </div>
       <span class="bottom">
         <span v-for="d in details" :key="d">{{ d }}</span>
@@ -32,16 +32,12 @@ export default {
       type: Array,
       default: () => [],
     },
-    showColorMarker: {
-      type: Boolean,
-      default: true,
+    tagColorStr: {
+      type: String,
+      default: null,
     },
   },
-  setup(props) {
-    const colorMarkerStyle = computed(() => ({
-      backgroundColor: strToColorStr(props.title),
-    }));
-    return { colorMarkerStyle };
+  setup() {
   },
 };
 </script>

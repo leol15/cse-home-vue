@@ -1,12 +1,13 @@
 <template>
-  <Section>
+  <Section id="Work">
     <template v-slot:heading><span>Work Experience</span></template>
     <div class="work-section-wrapper">
       <div class="work-left">
         <EventWrapper>
           <img :src="require('@/assets/pathai.jpg')" alt="pathai-logo" />
           <Event
-            title="Software Engineering Co-op"
+            :title="transformTitle('Software Engineering Co-op')"
+            :tagColorStr="strToColorStr('Software Engineering Co-op')"
             :details="['PathAI', 'Remote']"
           >
             <ul>
@@ -25,7 +26,8 @@
         <EventWrapper>
           <img :src="require('@/assets/cse.jpg')" alt="cse-logo" />
           <Event
-            title="Systems Programming TA"
+            :title="transformTitle('Systems Programming TA')"
+            :tagColorStr="strToColorStr('Systems Programming TA')"
             :details="['UW CSE', 'Winter - Spring 2021']"
           >
             <ul>
@@ -44,7 +46,8 @@
         <EventWrapper>
           <img :src="require('@/assets/omad.jpg')" alt="omad-logo" />
           <Event
-            title="CSE & Math Tutor"
+            :title="transformTitle('CSE & Math Tutor')"
+            :tagColorStr="strToColorStr('CSE & Math Tutor')"
             :details="[
               'Instructional Center',
               'UW Office of Minority & Diversity',
@@ -65,7 +68,8 @@
         <EventWrapper>
           <img :src="require('@/assets/lp.jpg')" alt="lp-logo" />
           <Event
-            title="Student Dining Coordinator"
+            :title="transformTitle('Student Dining Coordinator')"
+            :tagColorStr="strToColorStr('Student Dining Coordinator')"
             :details="['Local Point', 'UW Housing & Food Services']"
           >
             <ul>
@@ -84,7 +88,8 @@
         <EventWrapper>
           <img :src="require('@/assets/clinchnw.png')" alt="clinchnw-logo" />
           <Event
-            title="Office Intern"
+            :title="transformTitle('Office Intern')"
+            :tagColorStr="strToColorStr('Office Intern')"
             :details="['Clinch Northwest', 'Seattle, WA']"
           >
             <ul>
@@ -103,7 +108,8 @@
         <EventWrapper>
           <img :src="require('@/assets/williams.jpg')" alt="williams-logo" />
           <Event
-            title="Sales Associate"
+            :title="transformTitle('Sales Associate')"
+            :tagColorStr="strToColorStr('Sales Associate')"
             :details="['Williams Sonoma', 'UVillage, Seattle, WA']"
           >
             <ul>
@@ -118,6 +124,7 @@
           :max="maxTime"
           :intervals="workInterval"
           :horizontal="false"
+          :hoverTip="hoverTip"
           @mouseenterInterval="mouseenterInterval"
           @mouseleaveInterval="mouseleaveInterval"
         />
@@ -132,8 +139,8 @@ import Event from "../Utils/Event.vue";
 import EventWrapper from "../Utils/EventWrapper.vue";
 import TimeLine from "../Utils/TimeLine.vue";
 import { dateToSeconds, strToColorStr } from "../composable";
-
-const minTime = dateToSeconds(2018, 9, 26);
+import {ref} from "vue";
+const minTime = dateToSeconds(2018, 12, 1);
 const maxTime = new Date().getTime();
 
 const WORKS = {
@@ -192,21 +199,38 @@ export default {
 
   setup() {
     const workInterval = Object.values(WORKS);
+    const hoveredWork = ref(null);
     function mouseenterInterval(interval) {
       // TODO maybe highlight the work
-      console.log(interval[2].name);
+      hoveredWork.value = interval[2].name;
     }
     function mouseleaveInterval(interval) {
-      console.log(interval[2].name);
+      hoveredWork.value = null;
+    }
+    function transformTitle(title) {
+      if (hoveredWork.value?.toString() === title) {
+        return title + "*";
+      } else {
+        return title;
+      }
+    }
+    function hoverTip(percentage) {
+      const time = minTime + (maxTime - minTime) * percentage;
+      return new Date(time).toLocaleString('en-US', {
+        year: 'numeric', month: 'numeric', day: 'numeric'
+      });
     }
     return {
       minTime,
       maxTime,
       workInterval,
+      hoverTip,
+      transformTitle,
       WORKS,
       dateToSeconds,
       mouseenterInterval,
       mouseleaveInterval,
+      strToColorStr,
     };
   },
 };
@@ -233,10 +257,12 @@ ul {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  .work-left {
+    margin-right: $space-2;
+  }
   .work-right {
     padding: $space-4 0;
     width: $space-6;
-    transform: skewY(-60deg);
     margin-right: $space-2;
   }
 }
