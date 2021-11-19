@@ -237,7 +237,7 @@ export default {
 }
 
 .project {
-  padding: $space-1;
+  padding: $space-2;
   position: relative;
   &::before {
     content: "";

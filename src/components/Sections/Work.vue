@@ -271,6 +271,13 @@ ul {
     padding: $space-4 0;
     width: $space-6;
     margin-right: $space-2;
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+  }
+}
+#Work {
+  &:hover .work-right {
+    filter: none;
   }
 }
 </style>
