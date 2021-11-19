@@ -53,7 +53,7 @@ export default defineComponent({
       default: undefined,
     }
   },
-  setup(props, { context, emit }) {
+  setup(props, { emit }) {
     const times = computed(() => {
       const range = props.max - props.min;
       const rowedIntervals = intervalToRow(props.intervals);
@@ -153,7 +153,7 @@ export default defineComponent({
     transform: skewY(-30deg);
     position: absolute;
     z-index: 1;
-
+    transition: all 0.3s;
     &:hover {
       filter: saturate(2);
       transform: skewY(-30deg) scale(1.03);

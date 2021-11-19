@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
-import { strToColorStr } from "../composable";
 
 export default {
   props: {

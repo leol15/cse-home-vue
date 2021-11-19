@@ -10,6 +10,10 @@
             :tagColorStr="strToColorStr('Software Engineering Co-op')"
             :details="['PathAI', 'Remote']"
           >
+            <tech-tag name="Python3"/>
+            <tech-tag name="Django"/>
+            <tech-tag name="Vuejs"/>
+            <tech-tag name="TypeScript"/>
             <ul>
               <li>
                 Improve patient outcome by enabling pathologists with digital
@@ -30,6 +34,8 @@
             :tagColorStr="strToColorStr('Systems Programming TA')"
             :details="['UW CSE', 'Winter - Spring 2021']"
           >
+            <tech-tag name="C"/>
+            <tech-tag name="C++"/>
             <ul>
               <li>
                 Help peers learn fundamentals of system level programming in
@@ -140,6 +146,7 @@ import EventWrapper from "../Utils/EventWrapper.vue";
 import TimeLine from "../Utils/TimeLine.vue";
 import { dateToSeconds, strToColorStr } from "../composable";
 import {ref} from "vue";
+import TechTag from '../Utils/TechTag.vue';
 const minTime = dateToSeconds(2018, 12, 1);
 const maxTime = new Date().getTime();
 
@@ -195,7 +202,7 @@ const WORKS = {
 };
 
 export default {
-  components: { Section, Event, TimeLine, EventWrapper },
+  components: { Section, Event, TimeLine, EventWrapper, TechTag },
 
   setup() {
     const workInterval = Object.values(WORKS);
@@ -204,7 +211,7 @@ export default {
       // TODO maybe highlight the work
       hoveredWork.value = interval[2].name;
     }
-    function mouseleaveInterval(interval) {
+    function mouseleaveInterval() {
       hoveredWork.value = null;
     }
     function transformTitle(title) {
