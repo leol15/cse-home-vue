@@ -4,6 +4,24 @@
     <div class="work-section-wrapper">
       <div class="work-left">
         <EventWrapper>
+          <img :src="require('@/assets/amazon.jpg')" alt="amazon-logo" />
+          <Event
+            :title="transformTitle('SDE I')"
+            :tagColorStr="strToColorStr('SDE I')"
+            :details="['Amazon', 'Portlan, OR']"
+          >
+            <tech-tag name="Java"/>
+            <tech-tag name="Vuejs"/>
+            <tech-tag name="TypeScript"/>
+            <ul>
+              <li>
+                WIP...
+              </li>
+            </ul>
+          </Event>
+        </EventWrapper>
+
+        <EventWrapper>
           <img :src="require('@/assets/pathai.jpg')" alt="pathai-logo" />
           <Event
             :title="transformTitle('Software Engineering Co-op')"
@@ -151,9 +169,17 @@ const minTime = dateToSeconds(2018, 12, 1);
 const maxTime = new Date().getTime();
 
 const WORKS = {
+  AMAZON: [
+    dateToSeconds(2022, 3, 1),
+    maxTime,
+    {
+      name: "SDE I",
+      color: strToColorStr("SDE I"),
+    },
+  ],
   PATHAI: [
     dateToSeconds(2021, 6, 20),
-    maxTime,
+    dateToSeconds(2021, 12, 15),
     {
       name: "Software Engineering Co-op",
       color: strToColorStr("Software Engineering Co-op"),
